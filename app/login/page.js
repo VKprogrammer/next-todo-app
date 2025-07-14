@@ -35,7 +35,6 @@ export default function LoginPage() {
   console.error("Login failed:", error);
 }
 
-    console.log(data);
     if (response.status === 401) {
       return router.push("/login");
     }
