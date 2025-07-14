@@ -15,7 +15,26 @@ export default function LoginPage() {
       method: "POST",
       body: JSON.stringify({ email, password }),
     });
-    const data = await response.json();
+    try {
+  const response = await fetch("/api/login", {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+    headers: { "Content-Type": "application/json" },
+  });
+
+  const data = await response.json();
+
+  if (response.status === 401) {
+    return router.push("/login");
+  }
+
+  if (!data.error) {
+    return router.push("/");
+  }
+} catch (error) {
+  console.error("Login failed:", error);
+}
+
     console.log(data);
     if (response.status === 401) {
       return router.push("/login");
@@ -67,7 +86,7 @@ export default function LoginPage() {
           </button>
         </form>
         <p className="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
-          Don’t have an account?{" "}
+          Don't have an account?{" "}
           <Link href="/register" className="text-blue-500 hover:underline">
             Register
           </Link>
